@@ -35,7 +35,7 @@ export const login = async(req, res)=>{
         }
 
         // if user exists then check the password
-        const checkCorrectPassword = bcrypt.compare(req.body.password, user.password)
+        const checkCorrectPassword = await bcrypt.compare(req.body.password, user.password)
 
         // if password is incorrect
         if(!checkCorrectPassword){
@@ -49,7 +49,7 @@ export const login = async(req, res)=>{
         
         // send the token in cookie and send the response to the frontend
         res.cookie("accessToken", token, {httpOnly: true, expires: token.expiresIn
-        }).status(200).json({success: true, message: "Successfully logged in", data: {...rest}
+        }).status(200).json({token, data: {...rest}, role,
         })
 
     } catch(err){
